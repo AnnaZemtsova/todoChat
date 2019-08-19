@@ -4,30 +4,30 @@
       <mat-card-title>Sign up</mat-card-title>
     </mat-card-header>
     <mat-card-content class="content">
-      <form class="example-form">
+      <form [formGroup]="userForm" class="example-form">
         <table class="example-full-width" cellspacing="0">
           <tr>
             <td>
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="First Name" [(ngModel)]="name" name="name" required>
+                <input matInput placeholder="First Name" formControlName="name" required>
               </mat-form-field>
             </td>
           </tr>
           <tr>
             <td>
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+                <input matInput placeholder="Email" formControlName="email" required>
               </mat-form-field>
             </td>
           </tr>
           <tr>
             <td><mat-form-field class="example-full-width">
-              <input matInput placeholder="Password"  [(ngModel)]="password"type="password" name="password" required>
+              <input matInput placeholder="Password"  type="password" formControlName="password" required>
             </mat-form-field></td>
           </tr>
           <tr>
             <td><mat-form-field class="example-full-width">
-              <input matInput placeholder="Confirmation Password"  [(ngModel)]="confirm" type="password" name="confirm" required>
+              <input matInput placeholder="Confirmation Password"  type="password" formControlName="confirmPassword" required>
             </mat-form-field></td>
           </tr>
         </table>

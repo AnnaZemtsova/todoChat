@@ -5,16 +5,26 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { SigninComponent } from './signin/signin.component';
+import { SigninComponent } from './auth/components/signin/signin.component';
 import {CustomMaterialModule} from './core/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app.routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {SignupComponent} from './signup/signup.component';
+import {SignupComponent} from './auth/components/signup/signup.component';
 import {TableModule} from 'primeng/table';
 import {FieldsetModule, InputTextModule, ScrollPanelModule} from 'primeng/primeng';
 import {ChatComponent} from './chat/chat.component';
+import {AuthModule} from './auth/auth.module';
+import * as fromApp from './store/app.reducers';
+import {StoreModule} from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {UserModule} from './user/user.module';
+import {SharedModule} from './shared/shared.module';
+import { EffectsModule} from '@ngrx/effects';
+import {UserEffects} from './user/effects/user.effects';
+import {RestService} from './core/services/rest.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,23 +32,31 @@ import {ChatComponent} from './chat/chat.component';
     HomeComponent,
     FooterComponent,
     HeaderComponent,
-    SigninComponent,
-    SignupComponent,
     ChatComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CustomMaterialModule,
-    FormsModule,
+    SharedModule,
     AppRoutingModule,
     FlexLayoutModule,
     TableModule,
     InputTextModule,
     FieldsetModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    AuthModule,
+    HttpClientModule,
+    UserModule,
+    StoreModule.forRoot(fromApp.appReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 10
+    }),
+    EffectsModule.forRoot([UserEffects])
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [RestService],
+  bootstrap: [AppComponent],
+  exports: [
+    CustomMaterialModule
+  ]
 })
 export class AppModule { }
