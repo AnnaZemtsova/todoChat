@@ -1,0 +1,16 @@
+.content{
+  margin-top: 100px;
+  margin-left: 40px;
+}
+.open-chat{
+  position: fixed;
+  top: 30%;
+  left: 90%;
+}
+
+.chat{
+  position: fixed;
+  top: 38%;
+  left: 60%;
+  height: 400px;
+}
