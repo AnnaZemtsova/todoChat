@@ -1,5 +1,4 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import * as UserActions from '../actions/user.actions';
 import * as AuthActions from '../../auth/actions/auth.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {RestService} from '../../core/services/rest.service';
@@ -11,18 +10,16 @@ import {Router} from '@angular/router';
 import {ROUTES} from '../../core/consts';
 
 @Injectable()
-export class UserEffects {
+export class AuthEffects {
   @Effect()
-  userRegistration = this.actions.pipe(
-    ofType(UserActions.USER_CREATE_REQUEST),
-    switchMap((userData: UserActions.UserCreateRequest) => {
-        return this.rest.post('signup', userData.payload);
+  userSignin = this.actions.pipe(
+    ofType(AuthActions.AUTH_REQUEST),
+    switchMap((userData: AuthActions.AuthRequest) => {
+      this.router.navigate([ROUTES.HOME.path]); // ??
+      return of();
     }),
     map((resData: any) => {
-      localStorage.setItem('user', JSON.stringify(resData.data));
-      this.store.dispatch(new UserActions.UserCreateSuccess(resData.data));
       this.router.navigate([ROUTES.HOME.path]);
-      return new AuthActions.AuthSuccess();
     }),
     catchError(() => {
       return of(new AuthActions.AuthFailed());

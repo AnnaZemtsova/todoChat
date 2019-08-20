@@ -5,9 +5,11 @@ export interface State {
   todoList: TodoList;
 }
 const initialState: State = {
-  todoList: null
+  todoList: {
+    idUser: 'sdf',
+    list: ['sdaf', 'sdf', 'sdfsf', 'sadgasg']
+  }
 };
-
 export function todoListReducer(state = initialState, action: TodoListAction.TodoListActions): State {
   switch (action.type) {
     case TodoListAction.TODO_LIST_ADD_ITEM:

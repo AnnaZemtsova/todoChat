@@ -10,15 +10,21 @@ const initialState: State = {
 export function authReducer(state = initialState, action: AuthAction.AuthActions): State {
   switch (action.type) {
     case AuthAction.AUTH_REQUEST:
-      break;
+      return {
+        ...state
+      };
     case AuthAction.AUTH_SUCCESS:
-      break;
-
+      return {
+      ...state
+      };
     case AuthAction.AUTH_FAILED:
-      break;
-
+      return {
+        ...state
+      };
     case AuthAction.AUTH_CLEAR:
-      break;
+      return {
+        ...state
+      };
     default:
       return {
         ...state

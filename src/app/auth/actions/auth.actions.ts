@@ -8,7 +8,7 @@ export const AUTH_CLEAR = 'AUTH_CLEAR';
 
 export class AuthRequest implements Action {
   readonly type =  AUTH_REQUEST;
-  payload: {email: string; password: string};
+  constructor(payload: {email: string; password: string}) {}
 }
 
 export class AuthSuccess implements Action {

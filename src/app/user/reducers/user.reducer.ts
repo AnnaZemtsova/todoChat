@@ -17,6 +17,14 @@ export function userReducer(state = initialState, action: UserAction.UserActions
     case UserAction.USER_FETCH_SUCCESS:
       break;
 
+    case UserAction.USER_CREATE_SUCCESS:
+      return {
+        ...state
+      };
+
+    case UserAction.USER_CREATE_FAILED:
+      break;
+
     case UserAction.USER_FETCH_FAILED:
       break;
     case UserAction.USER_CLEAR:

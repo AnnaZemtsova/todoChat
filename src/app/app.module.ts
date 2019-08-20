@@ -25,6 +25,7 @@ import { EffectsModule} from '@ngrx/effects';
 import {UserEffects} from './user/effects/user.effects';
 import {RestService} from './core/services/rest.service';
 import {HttpClientModule} from '@angular/common/http';
+import {AuthEffects} from './auth/effects/auth.effects';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import {HttpClientModule} from '@angular/common/http';
     StoreDevtoolsModule.instrument({
       maxAge: 10
     }),
-    EffectsModule.forRoot([UserEffects])
+    EffectsModule.forRoot([UserEffects, AuthEffects])
   ],
   providers: [RestService],
   bootstrap: [AppComponent],

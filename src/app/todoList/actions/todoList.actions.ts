@@ -6,6 +6,7 @@ export const TODO_LIST_REMOVE_ITEM = 'TODO_LIST_REMOVE_ITEM';
 export const TODO_LIST_UPDATE_ITEM = 'TODO_LIST_UPDATE_ITEM';
 export const TODO_LIST_CLEAR = 'TODO_LIST_CLEAR';
 
+
 export class TodoListAddItem implements Action {
   readonly type =  TODO_LIST_ADD_ITEM;
 }

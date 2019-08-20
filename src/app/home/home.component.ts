@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import * as fromApp from '../store/app.reducers';
+import {Store} from '@ngrx/store';
+import * as TodoListActions from '../todoList/actions/todoList.actions';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -6,25 +10,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  cols: ({ field: string; header: string })[];
-  cars = ['f', 'sdf', 'sfd'];
   todos: Promise<string[]> = new Promise<string[]>((res, rej) => this.resolveTodos = res );
   private resolveTodos: Function;
   newToDo: string;
   openChat: boolean = false;
 
-  constructor() {
-    this.cols = [
-      { field: 'vin', header: 'Vin' },
-      {field: 'year', header: 'Year' },
-      { field: 'brand', header: 'Brand' },
-      { field: 'color', header: 'Color' }
-    ];
+  constructor(private store: Store<fromApp.AppState>) {
   }
 
   ngOnInit() {
-    this.todos = new Promise<string[]>((res, rej) => this.resolveTodos = res);
-    this.resolveTodos(this.cars);
+    this.store.select('todoList').pipe(map((state: any) => {
+      return state;
+    })).subscribe(state => {
+      this.todos = new Promise<string[]>((res, rej) => this.resolveTodos = res);
+      this.resolveTodos(state.todoList.list);
+  });
   }
 
   onToggleFab() {
