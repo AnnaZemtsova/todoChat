@@ -9,6 +9,8 @@ import * as fromApp from '../../store/app.reducers';
 import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import {ROUTES} from '../../core/consts';
+import {API_URLS} from '../../core/consts';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class UserEffects {
@@ -16,11 +18,13 @@ export class UserEffects {
   userRegistration = this.actions.pipe(
     ofType(UserActions.USER_CREATE_REQUEST),
     switchMap((userData: UserActions.UserCreateRequest) => {
-        return this.rest.post('signup', userData.payload);
+        return this.rest.post(API_URLS.SIGNUP, userData.payload);
     }),
     map((resData: any) => {
-      localStorage.setItem('user', JSON.stringify(resData.data));
-      this.store.dispatch(new UserActions.UserCreateSuccess(resData.data));
+      const helper = new JwtHelperService();
+      const user = helper.decodeToken(resData.data.token);
+      localStorage.setItem('user', JSON.stringify(user));
+      this.store.dispatch(new UserActions.UserCreateSuccess(user));
       this.router.navigate([ROUTES.HOME.path]);
       return new AuthActions.AuthSuccess();
     }),

@@ -5,6 +5,7 @@ import * as fromUser from '../../../user/reducers/user.reducer';
 import * as UserActions from '../../../user/actions/user.actions';
 import {User} from '../../../user/models/user';
 import {FormControl, FormGroup} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -12,7 +13,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private router: Router, private store: Store<fromUser.State>) { }
+  constructor(private router: Router, private store: Store<fromUser.State>,
+              private http: HttpClient) { }
   userForm: FormGroup;
 
   ngOnInit() {

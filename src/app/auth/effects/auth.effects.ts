@@ -8,6 +8,9 @@ import * as fromApp from '../../store/app.reducers';
 import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import {ROUTES} from '../../core/consts';
+import {API_URLS} from '../../core/consts';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import * as UserActions from '../../user/actions/user.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -15,11 +18,15 @@ export class AuthEffects {
   userSignin = this.actions.pipe(
     ofType(AuthActions.AUTH_REQUEST),
     switchMap((userData: AuthActions.AuthRequest) => {
-      this.router.navigate([ROUTES.HOME.path]); // ??
-      return of();
+      return this.rest.post(API_URLS.SIGNIN, userData.payload);
     }),
     map((resData: any) => {
+      const helper = new JwtHelperService();
+      const user = helper.decodeToken(resData.data.token);
+      localStorage.setItem('user', JSON.stringify(user));
+      this.store.dispatch(new UserActions.UserCreateSuccess(user));
       this.router.navigate([ROUTES.HOME.path]);
+      return new AuthActions.AuthSuccess();
     }),
     catchError(() => {
       return of(new AuthActions.AuthFailed());

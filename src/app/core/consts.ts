@@ -1,8 +1,8 @@
 import {SigninComponent} from '../auth/components/signin/signin.component';
 
 export enum API_URLS {
-  SIGNUP = 'signup',
-  SIGNIN = 'signin'
+  SIGNUP = 'users/signup',
+  SIGNIN = 'users/signin'
 }
 
 export const ROUTES  = {
