@@ -2,7 +2,8 @@ import {SigninComponent} from '../auth/components/signin/signin.component';
 
 export enum API_URLS {
   SIGNUP = 'users/signup',
-  SIGNIN = 'users/signin'
+  SIGNIN = 'users/signin',
+  TODO_LIST = 'todoList'
 }
 
 export const ROUTES  = {

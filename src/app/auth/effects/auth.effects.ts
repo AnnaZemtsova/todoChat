@@ -22,8 +22,9 @@ export class AuthEffects {
     }),
     map((resData: any) => {
       const helper = new JwtHelperService();
-      const user = helper.decodeToken(resData.data.token);
+      const user = helper.decodeToken(resData.data);
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('jwtToken', resData.data);
       this.store.dispatch(new UserActions.UserCreateSuccess(user));
       this.router.navigate([ROUTES.HOME.path]);
       return new AuthActions.AuthSuccess();

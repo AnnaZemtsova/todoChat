@@ -26,6 +26,7 @@ import {UserEffects} from './user/effects/user.effects';
 import {RestService} from './core/services/rest.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthEffects} from './auth/effects/auth.effects';
+import {TodoListEffects} from './todoList/effects/todoList.effects';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import {AuthEffects} from './auth/effects/auth.effects';
     StoreDevtoolsModule.instrument({
       maxAge: 10
     }),
-    EffectsModule.forRoot([UserEffects, AuthEffects])
+    EffectsModule.forRoot([UserEffects, AuthEffects, TodoListEffects])
   ],
   providers: [RestService],
   bootstrap: [AppComponent],

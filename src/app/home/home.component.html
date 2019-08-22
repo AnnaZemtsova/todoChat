@@ -2,7 +2,7 @@
   <div class="row" >
     <div class="col col-6">
       <input id="input" type="text" size="30" pInputText placeholder="Add new todo" [(ngModel)]="newToDo">
-      <button class="mat-button btn-success" style="margin-left: 30px">Add</button>
+      <button class="mat-button btn-success" style="margin-left: 30px" (click)="addItem()">Add</button>
 
       <table class="table">
   <thead>
@@ -14,11 +14,12 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let todo of todos|async; let i=index">
+  <tr *ngFor="let item of todos|async; let i=index">
     <th scope="row">{{i+1}}</th>
-    <td>{{todo}}</td>
-    <td> <button class="mat-button btn-secondary" >Edit</button></td>
-    <td><button class="mat-button btn-secondary" >X</button></td>
+    <td><input [value]="item.todo" [(ngModel)]="editableValue" *ngIf="isEdit&&(editedItemIndex === i)" type="text"><p *ngIf="(!isEdit||
+editedItemIndex !== i)" >{{item.todo}}</p></td>
+    <td> <button class="mat-button btn-secondary" (click)="editItem(i)">Edit</button></td>
+    <td><button class="mat-button btn-secondary" (click)="deleteItem(i)">X</button></td>
   </tr>
   </tbody>
 </table>
