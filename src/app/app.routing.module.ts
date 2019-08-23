@@ -3,10 +3,11 @@ import {RouterModule, ROUTES, Routes} from '@angular/router';
 import {SigninComponent} from './auth/components/signin/signin.component';
 import {SignupComponent} from './auth/components/signup/signup.component';
 import {HomeComponent} from './home/home.component';
+import {AuthGuard} from './auth/guards/AuthGuard';
 const routes: Routes = [
   {path: 'signin', component: SigninComponent },
-  {path : '', component : HomeComponent},
-  {path : 'home', component : HomeComponent},
+  {path : '', component : HomeComponent, canActivate: [AuthGuard]},
+  {path : 'home', component : HomeComponent, canActivate: [AuthGuard]},
   {path : 'signup', component : SignupComponent}
 ];
 @NgModule({
@@ -16,6 +17,7 @@ const routes: Routes = [
   exports: [
     RouterModule
   ],
-  declarations: []
+  declarations: [],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

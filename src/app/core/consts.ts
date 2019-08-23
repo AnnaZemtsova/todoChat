@@ -20,3 +20,5 @@ export const ROUTES  = {
     component: SigninComponent
   },
 };
+
+export const STORE_ACTIONS = ['SUCCESS', 'REQUEST', 'FAILED', 'CLEAR'];

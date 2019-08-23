@@ -4,7 +4,7 @@ export interface State {
   isAuthorised: boolean;
 }
 const initialState: State = {
-  isAuthorised: false
+  isAuthorised: !!localStorage.getItem('jwtToken')
 };
 
 export function authReducer(state = initialState, action: AuthAction.AuthActions): State {
@@ -15,15 +15,18 @@ export function authReducer(state = initialState, action: AuthAction.AuthActions
       };
     case AuthAction.AUTH_SUCCESS:
       return {
-      ...state
+      ...state,
+        isAuthorised: true
       };
     case AuthAction.AUTH_FAILED:
       return {
-        ...state
+        ...state,
+        isAuthorised: false
       };
     case AuthAction.AUTH_CLEAR:
       return {
-        ...state
+        ...state,
+        isAuthorised: false
       };
     default:
       return {

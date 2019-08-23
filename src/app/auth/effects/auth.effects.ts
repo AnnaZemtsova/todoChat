@@ -33,6 +33,22 @@ export class AuthEffects {
       return of(new AuthActions.AuthFailed());
     })
   );
+
+  @Effect()
+  userSignout = this.actions.pipe(
+    ofType(AuthActions.AUTH_CLEAR),
+    switchMap((userData: AuthActions.AuthClear) => {
+      return of();
+    }),
+    map((resData: any) => {
+      localStorage.setItem('jwtToken', null);
+      this.router.navigate([ROUTES.SIGNIN.path]);
+      return  of();
+    }),
+    catchError(() => {
+      return of(new AuthActions.AuthFailed());
+    })
+  );
   constructor(private actions: Actions, private rest: RestService, private store: Store<fromApp.AppState>,
               private router: Router) {
   }
