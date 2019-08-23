@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import * as fromUser from '../../../user/reducers/user.reducer';
-import * as UserActions from '../../../user/actions/user.actions';
+import {UserActions} from '../../../user/actions/user.actions';
 import {User} from '../../../user/models/user';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
       password: this.userForm.value['password']
     };
 
-    this.store.dispatch(new UserActions.UserCreateRequest(user));
+    this.store.dispatch( UserActions.UserCreate.Request(user));
   }
 
 }

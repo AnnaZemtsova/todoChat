@@ -1,5 +1,5 @@
 import {User} from '../models/user';
-import * as UserAction from '../actions/user.actions';
+import {UserActionsConsts} from '../actions/user.actions';
 
 export interface State {
   user: User;
@@ -8,26 +8,29 @@ const initialState: State = {
   user: null
 };
 
-export function userReducer(state = initialState, action: UserAction.UserActions): State {
+export function userReducer(state = initialState, action): State {
   switch (action.type) {
-    case UserAction.USER_CREATE_REQUEST:
+    case UserActionsConsts.UserCreate.Request:
       return {
         ...state
       };
-    case UserAction.USER_FETCH_SUCCESS:
+    case UserActionsConsts.UserFetch.Success:
       break;
 
-    case UserAction.USER_CREATE_SUCCESS:
+    case UserActionsConsts.UserFetch.Request:
+      break;
+
+    case UserActionsConsts.UserCreate.Success:
       return {
         ...state
       };
 
-    case UserAction.USER_CREATE_FAILED:
+    case UserActionsConsts.UserCreate.Faild:
       break;
 
-    case UserAction.USER_FETCH_FAILED:
+    case UserActionsConsts.UserFetch.Failed:
       break;
-    case UserAction.USER_CLEAR:
+    case UserActionsConsts.Clear:
       break;
     default:
       return {

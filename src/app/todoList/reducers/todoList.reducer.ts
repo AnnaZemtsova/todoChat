@@ -1,5 +1,5 @@
 import {Todo} from '../models/todo';
-import * as TodoListAction from '../actions/todoList.actions';
+import {TodoActionsConsts} from '../actions/todoList.actions';
 
 export interface State {
   todoList: Todo[];
@@ -7,34 +7,77 @@ export interface State {
 const initialState: State = {
   todoList: []
 };
-export function todoListReducer(state = initialState, action: TodoListAction.TodoListActions): State {
+export function todoListReducer(state = initialState, action: any): State {
   switch (action.type) {
-    case TodoListAction.TODO_LIST_GET_ITEMS:
+    case TodoActionsConsts.TodoGetItems.Request:
       return {
         ...state
       };
-    case TodoListAction.TODO_LIST_SET_ITEMS:
+
+    case TodoActionsConsts.TodoGetItems.Success:
       return {
         ...state,
         todoList: action.payload
       };
-    case TodoListAction.TODO_LIST_UPDATE_LIST:
-      break;
 
-    case TodoListAction.TODO_LIST_ADD_ITEM:
-      break;
-    case TodoListAction.TODO_LIST_UPDATE_ITEM:
-      break;
-
-    case TodoListAction.TODO_LIST_REMOVE_ITEM:
+    case TodoActionsConsts.TodoGetItems.Failed:
       return {
         ...state
       };
 
-    case TodoListAction.TODO_LIST_CLEAR:
+    case TodoActionsConsts.TodoSetItems.Request:
+      return {
+        ...state,
+        todoList: action.payload
+      };
+
+    case TodoActionsConsts.TodoUpdate.Request:
       return {
         ...state
       };
+
+    case TodoActionsConsts.TodoUpdate.Success:
+      const { todo } = action.payload;
+
+      return {
+        ...state,
+        todoList: [...state.todoList.map(next => {
+            if (next._id === todo._id) {
+              next = todo;
+            }
+            return next;
+          })]
+      };
+
+    case TodoActionsConsts.TodoAdd.Request:
+      return {
+        ...state
+      };
+
+    case TodoActionsConsts.TodoAdd.Success:
+      return {
+        ...state,
+        todoList: [...state.todoList, action.payload]
+      };
+
+    case TodoActionsConsts.TodoRemove.Request:
+      return {
+        ...state
+      };
+
+    case TodoActionsConsts.TodoRemove.Success:
+      const removedTodoList = [...state.todoList];
+      removedTodoList.forEach((next, i) => {
+        if (next._id === action.payload.id) {
+          removedTodoList.splice(i, 1);
+        }
+      });
+      return {
+        ...state,
+        todoList: removedTodoList
+      };
+
+
     default:
       return {
         ...state

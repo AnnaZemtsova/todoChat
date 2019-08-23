@@ -1,6 +1,6 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import * as TodoListActions from '../actions/todoList.actions';
-import * as AuthActions from '../../auth/actions/auth.actions';
+import {TodoActions, TodoActionsConsts} from '../actions/todoList.actions';
+import {AuthActions} from '../../auth/actions/auth.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {RestService} from '../../core/services/rest.service';
 import {of} from 'rxjs';
@@ -10,66 +10,62 @@ import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import {ROUTES} from '../../core/consts';
 import {API_URLS} from '../../core/consts';
-import {Todo} from '../models/todo';
 
 @Injectable()
 export class TodoListEffects {
   @Effect()
   updateItem = this.actions.pipe(
-    ofType(TodoListActions.TODO_LIST_UPDATE_ITEM),
-    switchMap((item: TodoListActions.TodoListUpdateItem) => {
+    ofType(TodoActionsConsts.TodoUpdate.Request),
+    switchMap((item: any) => {
       return this.rest.put(API_URLS.TODO_LIST, item.payload);
     }),
     map((resData: any) => {
-      this.router.navigate([ROUTES.HOME.path]);
-      return new TodoListActions.TodoListGetItems({idUser: resData.data.idUser});
+      return  TodoActions.TodoUpdate.Success({todo: resData.data});
     }),
     catchError(() => {
-      return of(new AuthActions.AuthFailed());
+      return of(TodoActions.TodoUpdate.Failed);
     })
   );
 
   @Effect()
   deleteItem = this.actions.pipe(
-    ofType(TodoListActions.TODO_LIST_REMOVE_ITEM),
-    switchMap((item: TodoListActions.TodoListRemoveItem) => {
+    ofType(TodoActionsConsts.TodoRemove.Request),
+    switchMap((item: any) => {
       return this.rest.delete(API_URLS.TODO_LIST + '?idTodo=' + item.payload.idTodo);
     }),
     map((resData: any) => {
-      this.router.navigate([ROUTES.HOME.path]);
-      return new TodoListActions.TodoListGetItems({idUser: resData.data});
+      return  TodoActions.TodoRemove.Success({id: resData.data});
     }),
     catchError(() => {
-      return of(new AuthActions.AuthFailed());
+      return of(TodoActions.TodoRemove.Failed());
     })
   );
 
   @Effect()
   addItem = this.actions.pipe(
-    ofType(TodoListActions.TODO_LIST_ADD_ITEM),
-    switchMap((item: TodoListActions.TodoListAddItem) => {
+    ofType(TodoActionsConsts.TodoAdd.Request),
+    switchMap((item: any) => {
       return this.rest.post(API_URLS.TODO_LIST, item.payload);
     }),
     map((resData: any) => {
-      this.router.navigate([ROUTES.HOME.path]);
-      return new TodoListActions.TodoListGetItems(resData.data);
+      return  TodoActions.TodoAdd.Success(resData.data);
     }),
     catchError(() => {
-      return of(new AuthActions.AuthFailed());
+      return of(TodoActions.TodoAdd.Failed());
     })
   );
 
   @Effect()
   getItems = this.actions.pipe(
-    ofType(TodoListActions.TODO_LIST_GET_ITEMS),
-    switchMap((item: TodoListActions.TodoListGetItems) => {
+    ofType(TodoActionsConsts.TodoGetItems.Request),
+    switchMap((item: any) => {
       return this.rest.get(API_URLS.TODO_LIST + '?idUser=' + item.payload.idUser);
     }),
     map((resData: any) => {
-      return new TodoListActions.TodoListSetItems(resData.data);
+      return  TodoActions.TodoGetItems.Success(resData.data);
     }),
     catchError(() => {
-      return of(new AuthActions.AuthFailed());
+      return of(TodoActions.TodoGetItems.Failed());
     })
   );
   constructor(private actions: Actions, private rest: RestService, private store: Store<fromTodo.State>,

@@ -21,4 +21,4 @@ export const ROUTES  = {
   },
 };
 
-export const STORE_ACTIONS = ['SUCCESS', 'REQUEST', 'FAILED', 'CLEAR'];
+//export const STORE_ACTIONS = ['SUCCESS', 'REQUEST', 'FAILED', 'CLEAR'];

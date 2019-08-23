@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as fromApp from '../store/app.reducers';
 import {Store} from '@ngrx/store';
-import * as TodoListActions from '../todoList/actions/todoList.actions';
+import {TodoActions} from '../todoList/actions/todoList.actions';
 import {map} from 'rxjs/operators';
-import * as AuthActions from '../auth/actions/auth.actions';
 import {User} from '../user/models/user';
 import {Todo} from '../todoList/models/todo';
 
@@ -19,7 +18,7 @@ export class HomeComponent implements OnInit {
   openChat = false;
   user: User;
   isEdit: boolean = false;
-  editedItemIndex: number;
+  editedItemId: string;
   todoList: Todo[];
   editableValue: string;
 
@@ -28,7 +27,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(JSON.parse(localStorage.getItem('user')).user);
-    this.store.dispatch(new TodoListActions.TodoListGetItems({idUser: this.user._id}));
+    this.store.dispatch( TodoActions.TodoGetItems.Request({idUser: this.user._id}));
     this.store.select('todosReducer').pipe(map((state: any) => {
       return state;
     })).subscribe(state => {
@@ -45,18 +44,20 @@ export class HomeComponent implements OnInit {
   }
 
   addItem() {
-    this.store.dispatch(new TodoListActions.TodoListAddItem({idUser: this.user._id, todo: this.newToDo}));
+    this.store.dispatch( TodoActions.TodoAdd.Request({idUser: this.user._id, todo: this.newToDo}));
   }
 
-  editItem(i: number) {
+  editItem(todo: any) {
     if (this.isEdit) {
-      this.store.dispatch(new TodoListActions.TodoListUpdateItem({idUser: this.user._id, idTodo: this.todoList[i]._id , todo: this.editableValue}));
-    } else {}
+      this.store.dispatch(TodoActions.TodoUpdate.Request({idUser: this.user._id, idTodo: todo._id , todo: this.editableValue}));
+    } else {
+      this.editableValue = todo.todo;
+    }
     this.isEdit = !this.isEdit;
-    this.editedItemIndex = i;
+    this.editedItemId = todo._id;
   }
 
   deleteItem(i: number) {
-    this.store.dispatch(new TodoListActions.TodoListRemoveItem({ idTodo: this.todoList[i]._id }));
+    this.store.dispatch( TodoActions.TodoRemove.Request({ idTodo: this.todoList[i]._id }));
   }
 }

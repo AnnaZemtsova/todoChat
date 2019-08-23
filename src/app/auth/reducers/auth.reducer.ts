@@ -1,4 +1,4 @@
-import * as AuthAction from '../actions/auth.actions';
+import {AuthActionsConsts} from '../actions/auth.actions';
 
 export interface State {
   isAuthorised: boolean;
@@ -7,23 +7,23 @@ const initialState: State = {
   isAuthorised: !!localStorage.getItem('jwtToken')
 };
 
-export function authReducer(state = initialState, action: AuthAction.AuthActions): State {
+export function authReducer(state = initialState, action): State {
   switch (action.type) {
-    case AuthAction.AUTH_REQUEST:
+    case AuthActionsConsts.AuthLogin.Request:
       return {
         ...state
       };
-    case AuthAction.AUTH_SUCCESS:
+    case AuthActionsConsts.AuthLogin.Success:
       return {
       ...state,
         isAuthorised: true
       };
-    case AuthAction.AUTH_FAILED:
+    case AuthActionsConsts.AuthLogin.Failed:
       return {
         ...state,
         isAuthorised: false
       };
-    case AuthAction.AUTH_CLEAR:
+    case AuthActionsConsts.AuthLogin.Clear:
       return {
         ...state,
         isAuthorised: false

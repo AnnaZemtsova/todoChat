@@ -16,9 +16,10 @@
   <tbody>
   <tr *ngFor="let item of todos|async; let i=index">
     <th scope="row">{{i+1}}</th>
-    <td><input [value]="item.todo" [(ngModel)]="editableValue" *ngIf="isEdit&&(editedItemIndex === i)" type="text"><p *ngIf="(!isEdit||
-editedItemIndex !== i)" >{{item.todo}}</p></td>
-    <td> <button class="mat-button btn-secondary" (click)="editItem(i)">Edit</button></td>
+    <td><input  [(ngModel)]="editableValue" *ngIf="isEdit&&(editedItemId === item._id)" type="text">
+      <p *ngIf="(!isEdit||editedItemId !== item._id)" >{{item.todo}}</p></td>
+    <td> <button *ngIf ="!isEdit||editedItemId !== item._id" class="mat-button btn-secondary" (click)="editItem(item)">Edit</button>
+      <button *ngIf ="isEdit&&(editedItemId === item._id)" class="mat-button btn-secondary" (click)="editItem(item)">Save</button></td>
     <td><button class="mat-button btn-secondary" (click)="deleteItem(i)">X</button></td>
   </tr>
   </tbody>

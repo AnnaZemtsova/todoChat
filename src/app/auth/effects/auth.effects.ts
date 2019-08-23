@@ -1,5 +1,5 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import * as AuthActions from '../../auth/actions/auth.actions';
+import {AuthActionsConsts, AuthActions} from '../actions/auth.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {RestService} from '../../core/services/rest.service';
 import {of} from 'rxjs';
@@ -10,14 +10,16 @@ import {Router} from '@angular/router';
 import {ROUTES} from '../../core/consts';
 import {API_URLS} from '../../core/consts';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import * as UserActions from '../../user/actions/user.actions';
+import {UserActions} from '../../user/actions/user.actions';
+
 
 @Injectable()
 export class AuthEffects {
   @Effect()
   userSignin = this.actions.pipe(
-    ofType(AuthActions.AUTH_REQUEST),
-    switchMap((userData: AuthActions.AuthRequest) => {
+    ofType(AuthActionsConsts.AuthLogin.Request),
+    switchMap((userData: any) => {
+      console.log('d');
       return this.rest.post(API_URLS.SIGNIN, userData.payload);
     }),
     map((resData: any) => {
@@ -25,19 +27,19 @@ export class AuthEffects {
       const user = helper.decodeToken(resData.data);
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('jwtToken', resData.data);
-      this.store.dispatch(new UserActions.UserCreateSuccess(user));
+      this.store.dispatch(UserActions.UserCreate.Success(user));
       this.router.navigate([ROUTES.HOME.path]);
-      return new AuthActions.AuthSuccess();
+      return  AuthActions.AuthLogin.Success();
     }),
     catchError(() => {
-      return of(new AuthActions.AuthFailed());
+      return of( AuthActions.AuthLogin.Failed());
     })
   );
 
   @Effect()
   userSignout = this.actions.pipe(
-    ofType(AuthActions.AUTH_CLEAR),
-    switchMap((userData: AuthActions.AuthClear) => {
+    ofType(AuthActionsConsts.AuthLogin.Clear),
+    switchMap((userData: any) => {
       return of();
     }),
     map((resData: any) => {
@@ -46,7 +48,7 @@ export class AuthEffects {
       return  of();
     }),
     catchError(() => {
-      return of(new AuthActions.AuthFailed());
+      return of( AuthActions.AuthLogin.Failed());
     })
   );
   constructor(private actions: Actions, private rest: RestService, private store: Store<fromApp.AppState>,

@@ -1,64 +1,29 @@
-import {STORE_ACTIONS} from '../core/consts';
-import {AUTH_ACTIONS} from '../auth/actions';
-import {USER_ACTIONS} from '../user/actions';
-import {TODOS_ACTIONS} from '../todoList/actions';
+const STORE_ACTIONS = ['Success', 'Request', 'Failed', 'Clear'];
 
-
-
-export const getConsts = (): string[] => {
-  const constants: string[] = [];
-  STORE_ACTIONS.forEach(next => {
-    AUTH_ACTIONS.forEach(next2 => {
-      const type = next2 + '_' + next;
-      constants.push(type);
-    });
-    USER_ACTIONS.forEach(next2 => {
-      const type = next2 + '_' + next;
-      constants.push(type);
-    });
-    TODOS_ACTIONS.forEach(next2 => {
-      const type = next2 + '_' + next;
-      constants.push(type);
+export const createActionsType = (actionsConsts): {} => {
+  const constants: {} = {};
+  actionsConsts.forEach(next => {
+    constants[next] =  {};
+    STORE_ACTIONS.forEach(next2 => {
+      constants[next][next2] = '[' + next + '] ' + next2;
     });
   });
   return constants;
 };
 
-export const getActions = (consts: string[]) => {
+export const createActions = (consts: {}) => {
   const actions: {} = {};
-  consts.forEach(next => {
-    actions[next] = (next, payload, callback, options) => {
-      return {next, payload, callback, options};
-    };
-  });
+  for (const key in consts) {
+    actions[key] = {};
+    for (const keyInner in consts[key]) {
+      const type = '[' + key + '] ' + keyInner;
+      actions[key][keyInner] = (payload, callback, options) => {
+        return {type, payload, callback, options};
+      };
+    }
+  }
   return actions;
 };
 
-
-// STORE_ACTIONS.forEach(next => {
-//   consts[next] = {};
-//
-//   AUTH_ACTIONS.forEach(next2 => {
-//     const type = next + '_' + next2;
-//     consts[next][next2] = (type, payload, callback, options) => {
-//       return {type, payload, callback, options};
-//     };
-//   });
-//
-//   USER_ACTIONS.forEach(next2 => {
-//     const type = next + '_' + next2;
-//     consts[next][next2] = (type, payload, callback, options) => {
-//       return {type, payload, callback, options};
-//     };
-//   });
-//
-//
-//   TODOS_ACTIONS.forEach(next2 => {
-//     const type = next + '_' + next2;
-//     consts[next][next2] = (type, payload, callback, options) => {
-//       return {type, payload, callback, options};
-//     };
-//   });
-// });
 
 

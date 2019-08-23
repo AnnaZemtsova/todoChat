@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {FormControl, FormGroup} from '@angular/forms';
 import * as fromAuth from '../../../auth/reducers/auth.reducer';
-import * as AuthActions from '../../../auth/actions/auth.actions';
+import {AuthActions} from '../../actions/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class SigninComponent implements OnInit {
   signin(): void {
       const email = this.userForm.value['email'];
       const password = this.userForm.value['password'];
-      this.store.dispatch(new AuthActions.AuthRequest({email, password}));
+      this.store.dispatch(AuthActions.AuthLogin.Request({email, password}));
   }
 
 }
