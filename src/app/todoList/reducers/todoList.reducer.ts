@@ -66,18 +66,10 @@ export function todoListReducer(state = initialState, action: any): State {
       };
 
     case TodoActionsConsts.TodoRemove.Success:
-      const removedTodoList = [...state.todoList];
-      removedTodoList.forEach((next, i) => {
-        if (next._id === action.payload.id) {
-          removedTodoList.splice(i, 1);
-        }
-      });
       return {
         ...state,
-        todoList: removedTodoList
+        todoList: state.todoList.filter(next => next._id !== action.payload.id)
       };
-
-
     default:
       return {
         ...state

@@ -23,7 +23,7 @@ export class TodoListEffects {
       return  TodoActions.TodoUpdate.Success({todo: resData.data});
     }),
     catchError(() => {
-      return of(TodoActions.TodoUpdate.Failed);
+      return of(TodoActions.TodoUpdate.Failed());
     })
   );
 

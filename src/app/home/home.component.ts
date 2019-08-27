@@ -26,8 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(JSON.parse(localStorage.getItem('user')).user);
-    this.store.dispatch( TodoActions.TodoGetItems.Request({idUser: this.user._id}));
     this.store.select('todosReducer').pipe(map((state: any) => {
       return state;
     })).subscribe(state => {
@@ -37,6 +35,12 @@ export class HomeComponent implements OnInit {
         this.resolveTodos(state.todoList);
       }
   });
+    this.store.select('userReducer').pipe(map((state: any) => {
+      return state;
+    })).subscribe(state => {
+      this.user = state.user;
+    });
+    this.store.dispatch( TodoActions.TodoGetItems.Request({idUser: this.user._id}));
   }
 
   onToggleFab() {

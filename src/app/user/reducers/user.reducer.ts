@@ -21,16 +21,16 @@ export function userReducer(state = initialState, action): State {
       break;
 
     case UserActionsConsts.UserCreate.Success:
+      const gotUser: User = JSON.parse(action.payload.user);
       return {
-        ...state
+        ...state,
+        user: gotUser
       };
 
     case UserActionsConsts.UserCreate.Faild:
       break;
 
     case UserActionsConsts.UserFetch.Failed:
-      break;
-    case UserActionsConsts.Clear:
       break;
     default:
       return {
