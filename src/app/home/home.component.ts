@@ -43,7 +43,8 @@ export class HomeComponent implements OnInit {
     })).subscribe(state => {
       this.user = state.user;
     });
-    this.store.dispatch( TodoActions.TodoGetItems.Request({idUser: this.user._id}));
+
+    this.store.dispatch(TodoActions.TodoGetItems.Request({idUser: this.user._id}));
   }
 
   onToggleFab() {

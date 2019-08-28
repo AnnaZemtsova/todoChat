@@ -31,6 +31,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {SocketService} from './core/services/socket-service';
 import {MessageService} from './core/services/message.service';
 import {ChatEffects} from './chat-messages/effects/chat.effects';
+import {ChatModule} from './chat-messages/chat.module';
 const config: SocketIoConfig = { url: 'ws://localhost:8000', options: {} };
 
 
@@ -55,6 +56,7 @@ const config: SocketIoConfig = { url: 'ws://localhost:8000', options: {} };
     AuthModule,
     HttpClientModule,
     UserModule,
+    ChatModule,
     StoreModule.forRoot(fromApp.appReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 10
