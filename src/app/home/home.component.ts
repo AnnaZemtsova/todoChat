@@ -5,6 +5,8 @@ import {TodoActions} from '../todoList/actions/todoList.actions';
 import {map} from 'rxjs/operators';
 import {User} from '../user/models/user';
 import {Todo} from '../todoList/models/todo';
+import {SocketService} from '../core/services/socket-service';
+import {MessageService} from '../core/services/message.service';
 
 @Component({
   selector: 'app-home',
@@ -22,10 +24,11 @@ export class HomeComponent implements OnInit {
   todoList: Todo[];
   editableValue: string;
 
-  constructor(private store: Store<fromApp.AppState>) {
+  constructor(private store: Store<fromApp.AppState>, private socketService: SocketService, private messageService: MessageService) {
   }
 
   ngOnInit() {
+
     this.store.select('todosReducer').pipe(map((state: any) => {
       return state;
     })).subscribe(state => {

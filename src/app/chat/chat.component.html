@@ -1,14 +1,25 @@
 <div class="container content">
   <div class="row" >
-    <div class="col col-12">
-      <p-fieldset legend="My chat" >
-        <p-scrollPanel [style]="{width: '100%', height: '300px'}">
-          Content
-        </p-scrollPanel>
-  <input id="input" type="text" size="25" pInputText placeholder="Add new message">
-  <button class="mat-button btn-success" style="margin-left: 20px">Add</button>
+    <div class="col col-4" style="background: aliceblue">
+      <p-scrollPanel [style]="{width: '100%', height: '300px'}">
+        <div *ngFor="let room of rooms|async">
+          <a href="#"  class="mat-button" style="margin-left: 20px" (click)="joinRoom(room);">Join {{room}}</a>
+        </div>
+      </p-scrollPanel>
+      <button class="mat-button btn-success" style="margin-left: 20px" (click)="createRoom();">Create Room</button>
+    </div>
 
-</p-fieldset>
+    <div class="col col-7">
+      <p-fieldset legend="My chat" >
+        <p-scrollPanel [style]="{width: '100%', height: '230px'}">
+          <div *ngFor="let message of messages|async">
+            <label>{{message}}</label>
+          </div>
+        </p-scrollPanel>
+        <input id="input" type="text" size="30" pInputText placeholder="Add new message" [(ngModel)]="message">
+         <button class="mat-button btn-success" style=" width: 95%; margin-top: 10px" (click)="sendMessage();">Send</button>
+      </p-fieldset>
     </div>
   </div>
 </div>
+

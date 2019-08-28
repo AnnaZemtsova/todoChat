@@ -27,6 +27,12 @@ import {RestService} from './core/services/rest.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthEffects} from './auth/effects/auth.effects';
 import {TodoListEffects} from './todoList/effects/todoList.effects';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import {SocketService} from './core/services/socket-service';
+import {MessageService} from './core/services/message.service';
+import {ChatEffects} from './chat-messages/effects/chat.effects';
+const config: SocketIoConfig = { url: 'ws://localhost:8000', options: {} };
+
 
 @NgModule({
   declarations: [
@@ -53,9 +59,10 @@ import {TodoListEffects} from './todoList/effects/todoList.effects';
     StoreDevtoolsModule.instrument({
       maxAge: 10
     }),
-    EffectsModule.forRoot([UserEffects, AuthEffects, TodoListEffects])
+    EffectsModule.forRoot([UserEffects, AuthEffects, TodoListEffects, ChatEffects]),
+    SocketIoModule.forRoot(config)
   ],
-  providers: [RestService],
+  providers: [RestService, SocketService, MessageService],
   bootstrap: [AppComponent],
   exports: [
     CustomMaterialModule
